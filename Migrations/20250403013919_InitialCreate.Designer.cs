@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Backend_MiSalud.Migrations
 {
     [DbContext(typeof(MiSaludContext))]
-    [Migration("20250330204453_InitialCreate")]
+    [Migration("20250403013919_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />
@@ -49,13 +49,18 @@ namespace Backend_MiSalud.Migrations
                         .HasColumnType("nvarchar(100)")
                         .HasColumnName("nombre");
 
+                    b.Property<string>("PasswordAdministrator")
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)")
+                        .HasColumnName("password_Administrator");
+
                     b.Property<string>("Telefono")
                         .HasMaxLength(20)
                         .HasColumnType("nvarchar(20)")
                         .HasColumnName("telefono");
 
                     b.HasKey("IdAdministrador")
-                        .HasName("PK__Administ__0FE822AA6FC08EDB");
+                        .HasName("PK__Administ__0FE822AA3259F27C");
 
                     b.ToTable("Administrator", (string)null);
                 });
@@ -82,7 +87,7 @@ namespace Backend_MiSalud.Migrations
                         .HasColumnName("id_historial");
 
                     b.HasKey("IdDiagnostico")
-                        .HasName("PK__Diagnosi__1384B745BC26E59E");
+                        .HasName("PK__Diagnosi__1384B745290F3966");
 
                     b.HasIndex("IdHistorial");
 
@@ -118,6 +123,11 @@ namespace Backend_MiSalud.Migrations
                         .HasColumnType("nvarchar(100)")
                         .HasColumnName("nombre_completo");
 
+                    b.Property<string>("PasswordDoctor")
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)")
+                        .HasColumnName("password_Doctor");
+
                     b.Property<int?>("Rethus")
                         .HasColumnType("int")
                         .HasColumnName("rethus");
@@ -128,9 +138,9 @@ namespace Backend_MiSalud.Migrations
                         .HasColumnName("telefono");
 
                     b.HasKey("IdDoctor")
-                        .HasName("PK__Doctor__34D8A305943E51FB");
+                        .HasName("PK__Doctor__34D8A3054C5F3242");
 
-                    b.HasIndex(new[] { "Rethus" }, "UQ__Doctor__F4E7FF57265DE650")
+                    b.HasIndex(new[] { "Rethus" }, "UQ__Doctor__F4E7FF5755D956CD")
                         .IsUnique()
                         .HasFilter("[rethus] IS NOT NULL");
 
@@ -145,6 +155,11 @@ namespace Backend_MiSalud.Migrations
                         .HasColumnName("id_cita");
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("IdCita"));
+
+                    b.Property<string>("DescriptionAppointment")
+                        .HasMaxLength(150)
+                        .HasColumnType("nvarchar(150)")
+                        .HasColumnName("descriptionAppointment");
 
                     b.Property<string>("Estado")
                         .HasMaxLength(50)
@@ -171,8 +186,18 @@ namespace Backend_MiSalud.Migrations
                         .HasColumnType("int")
                         .HasColumnName("id_paciente");
 
+                    b.Property<string>("PlaceAppointment")
+                        .HasMaxLength(150)
+                        .HasColumnType("nvarchar(150)")
+                        .HasColumnName("placeAppointment");
+
+                    b.Property<string>("Title")
+                        .HasMaxLength(150)
+                        .HasColumnType("nvarchar(150)")
+                        .HasColumnName("title");
+
                     b.HasKey("IdCita")
-                        .HasName("PK__MedicalA__6AEC3C0957C4F199");
+                        .HasName("PK__MedicalA__6AEC3C0912C121F5");
 
                     b.HasIndex("IdDoctor");
 
@@ -208,7 +233,7 @@ namespace Backend_MiSalud.Migrations
                         .HasColumnName("tipo_examen");
 
                     b.HasKey("IdExamen")
-                        .HasName("PK__MedicalE__D16A231DA3A008B4");
+                        .HasName("PK__MedicalE__D16A231DF5E6874B");
 
                     b.HasIndex("IdHistorial");
 
@@ -280,9 +305,9 @@ namespace Backend_MiSalud.Migrations
                         .HasColumnName("tipo_sangre");
 
                     b.HasKey("IdHistorial")
-                        .HasName("PK__MedicalH__76E6C5027BF3FEDA");
+                        .HasName("PK__MedicalH__76E6C5020475C805");
 
-                    b.HasIndex(new[] { "IdPaciente" }, "UQ__MedicalH__2C2C72BA66FA97C9")
+                    b.HasIndex(new[] { "IdPaciente" }, "UQ__MedicalH__2C2C72BAF6DCCAE0")
                         .IsUnique()
                         .HasFilter("[id_paciente] IS NOT NULL");
 
@@ -313,15 +338,20 @@ namespace Backend_MiSalud.Migrations
                         .HasColumnType("nvarchar(100)")
                         .HasColumnName("nombre_completo");
 
+                    b.Property<string>("PasswordPatient")
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)")
+                        .HasColumnName("password_patient");
+
                     b.Property<string>("Telefono")
                         .HasMaxLength(20)
                         .HasColumnType("nvarchar(20)")
                         .HasColumnName("telefono");
 
                     b.HasKey("IdPaciente")
-                        .HasName("PK__Patient__2C2C72BB2610334A");
+                        .HasName("PK__Patient__2C2C72BB592B463E");
 
-                    b.HasIndex(new[] { "Correo" }, "UQ__Patient__2A586E0BBDBE606D")
+                    b.HasIndex(new[] { "Correo" }, "UQ__Patient__2A586E0B8556AC7E")
                         .IsUnique()
                         .HasFilter("[correo] IS NOT NULL");
 
@@ -350,7 +380,7 @@ namespace Backend_MiSalud.Migrations
                         .HasColumnName("id_historial");
 
                     b.HasKey("IdRecomendacion")
-                        .HasName("PK__Recommen__BC44D3FD681C44FB");
+                        .HasName("PK__Recommen__BC44D3FDA4117CC5");
 
                     b.HasIndex("IdHistorial");
 

@@ -44,7 +44,7 @@ public partial class MiSaludContext : DbContext
     {
         modelBuilder.Entity<Administrator>(entity =>
         {
-            entity.HasKey(e => e.IdAdministrador).HasName("PK__Administ__0FE822AA6FC08EDB");
+            entity.HasKey(e => e.IdAdministrador).HasName("PK__Administ__0FE822AA3259F27C");
 
             entity.ToTable("Administrator");
 
@@ -58,6 +58,9 @@ public partial class MiSaludContext : DbContext
             entity.Property(e => e.Nombre)
                 .HasMaxLength(100)
                 .HasColumnName("nombre");
+            entity.Property(e => e.PasswordAdministrator)
+                .HasMaxLength(100)
+                .HasColumnName("password_Administrator");
             entity.Property(e => e.Telefono)
                 .HasMaxLength(20)
                 .HasColumnName("telefono");
@@ -65,7 +68,7 @@ public partial class MiSaludContext : DbContext
 
         modelBuilder.Entity<Diagnosis>(entity =>
         {
-            entity.HasKey(e => e.IdDiagnostico).HasName("PK__Diagnosi__1384B745BC26E59E");
+            entity.HasKey(e => e.IdDiagnostico).HasName("PK__Diagnosi__1384B745290F3966");
 
             entity.ToTable("Diagnosis");
 
@@ -83,11 +86,11 @@ public partial class MiSaludContext : DbContext
 
         modelBuilder.Entity<Doctor>(entity =>
         {
-            entity.HasKey(e => e.IdDoctor).HasName("PK__Doctor__34D8A305943E51FB");
+            entity.HasKey(e => e.IdDoctor).HasName("PK__Doctor__34D8A3054C5F3242");
 
             entity.ToTable("Doctor");
 
-            entity.HasIndex(e => e.Rethus, "UQ__Doctor__F4E7FF57265DE650").IsUnique();
+            entity.HasIndex(e => e.Rethus, "UQ__Doctor__F4E7FF5755D956CD").IsUnique();
 
             entity.Property(e => e.IdDoctor).HasColumnName("id_doctor");
             entity.Property(e => e.Correo)
@@ -102,6 +105,9 @@ public partial class MiSaludContext : DbContext
             entity.Property(e => e.NombreCompleto)
                 .HasMaxLength(100)
                 .HasColumnName("nombre_completo");
+            entity.Property(e => e.PasswordDoctor)
+                .HasMaxLength(100)
+                .HasColumnName("password_Doctor");
             entity.Property(e => e.Rethus).HasColumnName("rethus");
             entity.Property(e => e.Telefono)
                 .HasMaxLength(20)
@@ -110,11 +116,14 @@ public partial class MiSaludContext : DbContext
 
         modelBuilder.Entity<MedicalAppointment>(entity =>
         {
-            entity.HasKey(e => e.IdCita).HasName("PK__MedicalA__6AEC3C0957C4F199");
+            entity.HasKey(e => e.IdCita).HasName("PK__MedicalA__6AEC3C0912C121F5");
 
             entity.ToTable("MedicalAppointment");
 
             entity.Property(e => e.IdCita).HasColumnName("id_cita");
+            entity.Property(e => e.DescriptionAppointment)
+                .HasMaxLength(150)
+                .HasColumnName("descriptionAppointment");
             entity.Property(e => e.Estado)
                 .HasMaxLength(50)
                 .HasColumnName("estado");
@@ -123,6 +132,12 @@ public partial class MiSaludContext : DbContext
             entity.Property(e => e.HoraFinalizacion).HasColumnName("Hora_finalizacion");
             entity.Property(e => e.IdDoctor).HasColumnName("id_doctor");
             entity.Property(e => e.IdPaciente).HasColumnName("id_paciente");
+            entity.Property(e => e.PlaceAppointment)
+                .HasMaxLength(150)
+                .HasColumnName("placeAppointment");
+            entity.Property(e => e.Title)
+                .HasMaxLength(150)
+                .HasColumnName("title");
 
             entity.HasOne(d => d.IdDoctorNavigation).WithMany(p => p.MedicalAppointments)
                 .HasForeignKey(d => d.IdDoctor)
@@ -137,7 +152,7 @@ public partial class MiSaludContext : DbContext
 
         modelBuilder.Entity<MedicalExamination>(entity =>
         {
-            entity.HasKey(e => e.IdExamen).HasName("PK__MedicalE__D16A231DA3A008B4");
+            entity.HasKey(e => e.IdExamen).HasName("PK__MedicalE__D16A231DF5E6874B");
 
             entity.ToTable("MedicalExamination");
 
@@ -158,11 +173,11 @@ public partial class MiSaludContext : DbContext
 
         modelBuilder.Entity<MedicalHistory>(entity =>
         {
-            entity.HasKey(e => e.IdHistorial).HasName("PK__MedicalH__76E6C5027BF3FEDA");
+            entity.HasKey(e => e.IdHistorial).HasName("PK__MedicalH__76E6C5020475C805");
 
             entity.ToTable("MedicalHistory");
 
-            entity.HasIndex(e => e.IdPaciente, "UQ__MedicalH__2C2C72BA66FA97C9").IsUnique();
+            entity.HasIndex(e => e.IdPaciente, "UQ__MedicalH__2C2C72BAF6DCCAE0").IsUnique();
 
             entity.Property(e => e.IdHistorial).HasColumnName("id_historial");
             entity.Property(e => e.AntecedentesFamiliares)
@@ -203,11 +218,11 @@ public partial class MiSaludContext : DbContext
 
         modelBuilder.Entity<Patient>(entity =>
         {
-            entity.HasKey(e => e.IdPaciente).HasName("PK__Patient__2C2C72BB2610334A");
+            entity.HasKey(e => e.IdPaciente).HasName("PK__Patient__2C2C72BB592B463E");
 
             entity.ToTable("Patient");
 
-            entity.HasIndex(e => e.Correo, "UQ__Patient__2A586E0BBDBE606D").IsUnique();
+            entity.HasIndex(e => e.Correo, "UQ__Patient__2A586E0B8556AC7E").IsUnique();
 
             entity.Property(e => e.IdPaciente).HasColumnName("id_paciente");
             entity.Property(e => e.Correo)
@@ -219,6 +234,9 @@ public partial class MiSaludContext : DbContext
             entity.Property(e => e.NombreCompleto)
                 .HasMaxLength(100)
                 .HasColumnName("nombre_completo");
+            entity.Property(e => e.PasswordPatient)
+                .HasMaxLength(100)
+                .HasColumnName("password_patient");
             entity.Property(e => e.Telefono)
                 .HasMaxLength(20)
                 .HasColumnName("telefono");
@@ -226,7 +244,7 @@ public partial class MiSaludContext : DbContext
 
         modelBuilder.Entity<Recommendation>(entity =>
         {
-            entity.HasKey(e => e.IdRecomendacion).HasName("PK__Recommen__BC44D3FD681C44FB");
+            entity.HasKey(e => e.IdRecomendacion).HasName("PK__Recommen__BC44D3FDA4117CC5");
 
             entity.ToTable("Recommendation");
 

@@ -11,6 +11,12 @@ public partial class MedicalAppointment
 
     public int? IdDoctor { get; set; }
 
+    public string? Title { get; set; }
+
+    public string? DescriptionAppointment { get; set; }
+
+    public string? PlaceAppointment { get; set; }
+
     public DateOnly? FechaCita { get; set; }
 
     public TimeOnly? HoraCita { get; set; }

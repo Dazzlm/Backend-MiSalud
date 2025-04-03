@@ -19,5 +19,7 @@ public partial class Doctor
 
     public string? Direccion { get; set; }
 
+    public string? PasswordDoctor { get; set; }
+
     public virtual ICollection<MedicalAppointment> MedicalAppointments { get; set; } = new List<MedicalAppointment>();
 }

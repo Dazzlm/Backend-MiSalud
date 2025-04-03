@@ -14,4 +14,6 @@ public partial class Administrator
     public string? Correo { get; set; }
 
     public string? Telefono { get; set; }
+
+    public string? PasswordAdministrator { get; set; }
 }

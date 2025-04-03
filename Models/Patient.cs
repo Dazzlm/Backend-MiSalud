@@ -15,6 +15,8 @@ public partial class Patient
 
     public string? Correo { get; set; }
 
+    public string? PasswordPatient { get; set; }
+
     public virtual ICollection<MedicalAppointment> MedicalAppointments { get; set; } = new List<MedicalAppointment>();
 
     public virtual MedicalHistory? MedicalHistory { get; set; }

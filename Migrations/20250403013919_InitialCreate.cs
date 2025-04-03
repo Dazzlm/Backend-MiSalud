@@ -20,11 +20,12 @@ namespace Backend_MiSalud.Migrations
                     nombre = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: true),
                     apellido = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: true),
                     correo = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: true),
-                    telefono = table.Column<string>(type: "nvarchar(20)", maxLength: 20, nullable: true)
+                    telefono = table.Column<string>(type: "nvarchar(20)", maxLength: 20, nullable: true),
+                    password_Administrator = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK__Administ__0FE822AA6FC08EDB", x => x.id_administrador);
+                    table.PrimaryKey("PK__Administ__0FE822AA3259F27C", x => x.id_administrador);
                 });
 
             migrationBuilder.CreateTable(
@@ -38,11 +39,12 @@ namespace Backend_MiSalud.Migrations
                     especialidad = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: true),
                     telefono = table.Column<string>(type: "nvarchar(20)", maxLength: 20, nullable: true),
                     correo = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: true),
-                    direccion = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: true)
+                    direccion = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: true),
+                    password_Doctor = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK__Doctor__34D8A305943E51FB", x => x.id_doctor);
+                    table.PrimaryKey("PK__Doctor__34D8A3054C5F3242", x => x.id_doctor);
                 });
 
             migrationBuilder.CreateTable(
@@ -54,11 +56,12 @@ namespace Backend_MiSalud.Migrations
                     nombre_completo = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: true),
                     direccion = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: true),
                     telefono = table.Column<string>(type: "nvarchar(20)", maxLength: 20, nullable: true),
-                    correo = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: true)
+                    correo = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: true),
+                    password_patient = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK__Patient__2C2C72BB2610334A", x => x.id_paciente);
+                    table.PrimaryKey("PK__Patient__2C2C72BB592B463E", x => x.id_paciente);
                 });
 
             migrationBuilder.CreateTable(
@@ -69,6 +72,9 @@ namespace Backend_MiSalud.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     id_paciente = table.Column<int>(type: "int", nullable: true),
                     id_doctor = table.Column<int>(type: "int", nullable: true),
+                    title = table.Column<string>(type: "nvarchar(150)", maxLength: 150, nullable: true),
+                    descriptionAppointment = table.Column<string>(type: "nvarchar(150)", maxLength: 150, nullable: true),
+                    placeAppointment = table.Column<string>(type: "nvarchar(150)", maxLength: 150, nullable: true),
                     fecha_cita = table.Column<DateOnly>(type: "date", nullable: true),
                     hora_cita = table.Column<TimeOnly>(type: "time", nullable: true),
                     Hora_finalizacion = table.Column<TimeOnly>(type: "time", nullable: true),
@@ -76,7 +82,7 @@ namespace Backend_MiSalud.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK__MedicalA__6AEC3C0957C4F199", x => x.id_cita);
+                    table.PrimaryKey("PK__MedicalA__6AEC3C0912C121F5", x => x.id_cita);
                     table.ForeignKey(
                         name: "FK__MedicalAp__id_do__4AB81AF0",
                         column: x => x.id_doctor,
@@ -112,7 +118,7 @@ namespace Backend_MiSalud.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK__MedicalH__76E6C5027BF3FEDA", x => x.id_historial);
+                    table.PrimaryKey("PK__MedicalH__76E6C5020475C805", x => x.id_historial);
                     table.ForeignKey(
                         name: "FK__MedicalHi__id_pa__3B75D760",
                         column: x => x.id_paciente,
@@ -132,7 +138,7 @@ namespace Backend_MiSalud.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK__Diagnosi__1384B745BC26E59E", x => x.id_diagnostico);
+                    table.PrimaryKey("PK__Diagnosi__1384B745290F3966", x => x.id_diagnostico);
                     table.ForeignKey(
                         name: "FK__Diagnosis__id_hi__412EB0B6",
                         column: x => x.id_historial,
@@ -153,7 +159,7 @@ namespace Backend_MiSalud.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK__MedicalE__D16A231DA3A008B4", x => x.id_examen);
+                    table.PrimaryKey("PK__MedicalE__D16A231DF5E6874B", x => x.id_examen);
                     table.ForeignKey(
                         name: "FK__MedicalEx__id_hi__3E52440B",
                         column: x => x.id_historial,
@@ -173,26 +179,26 @@ namespace Backend_MiSalud.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK__Recommen__BC44D3FD681C44FB", x => x.id_recomendacion);
+                    table.PrimaryKey("PK__Recommen__BC44D3FDA4117CC5", x => x.id_recomendacion);
                     table.ForeignKey(
                         name: "FK__Recommend__id_hi__440B1D61",
                         column: x => x.id_historial,
                         principalTable: "MedicalHistory",
                         principalColumn: "id_historial");
                 });
-
             migrationBuilder.Sql(@"
-                INSERT INTO Patient(nombre_completo, direccion, telefono, correo) VALUES
-                ('Juan Pérez', 'Calle Falsa 123, Ciudad', '555-1234', 'juan.perez@yopmail.com'),
-                ('María González', 'Avenida Siempre Viva 456, Ciudad', '555-5678', 'maria.gonzalez@yopmail.com'),
-                ('Carlos López', 'Boulevard Los Olivos 789, Ciudad', '555-8765', 'carlos.lopez@yopmail.com'),
-                ('Ana Martínez', 'Calle Luna 101, Ciudad', '555-4321', 'ana.martinez@yopmail.com'),
-                ('Luis Rodríguez', 'Avenida Sol 202, Ciudad', '555-6543', 'luis.rodriguez@yopmail.com'),
-                ('Sofía Hernández', 'Calle Estrella 303, Ciudad', '555-3456', 'sofia.hernandez@yopmail.com'),
-                ('Miguel Díaz', 'Boulevard Jardines 404, Ciudad', '555-7890', 'miguel.diaz@yopmail.com'),
-                ('Elena Ruiz', 'Avenida Bosques 505, Ciudad', '555-0987', 'elena.ruiz@yopmail.com'),
-                ('Jorge Morales', 'Calle Ríos 606, Ciudad', '555-6789', 'jorge.morales@yopmail.com'),
-                ('Lucía Castro', 'Boulevard Montañas 707, Ciudad', '555-9876', 'lucia.castro@yopmail.com');
+                INSERT INTO Patient(nombre_completo, direccion, telefono, correo, password_patient) VALUES
+                ('Juan Pérez', 'Calle Falsa 123, Ciudad', '555-1234', 'juan.perez@yopmail.com', 'Juan123!'),
+                ('María González', 'Avenida Siempre Viva 456, Ciudad', '555-5678', 'maria.gonzalez@yopmail.com', 'Maria123!'),
+                ('Carlos López', 'Boulevard Los Olivos 789, Ciudad', '555-8765', 'carlos.lopez@yopmail.com', 'Carlos123!'),
+                ('Ana Martínez', 'Calle Luna 101, Ciudad', '555-4321', 'ana.martinez@yopmail.com', 'Ana123!'),
+                ('Luis Rodríguez', 'Avenida Sol 202, Ciudad', '555-6543', 'luis.rodriguez@yopmail.com', 'Luis123!'),
+                ('Sofía Hernández', 'Calle Estrella 303, Ciudad', '555-3456', 'sofia.hernandez@yopmail.com', 'Sofia123!'),
+                ('Miguel Díaz', 'Boulevard Jardines 404, Ciudad', '555-7890', 'miguel.diaz@yopmail.com', 'Miguel123!'),
+                ('Elena Ruiz', 'Avenida Bosques 505, Ciudad', '555-0987', 'elena.ruiz@yopmail.com', 'Elena123!'),
+                ('Jorge Morales', 'Calle Ríos 606, Ciudad', '555-6789', 'jorge.morales@yopmail.com', 'Jorge123!'),
+                ('Lucía Castro', 'Boulevard Montañas 707, Ciudad', '555-9876', 'lucia.castro@yopmail.com', 'Lucia123!');
+
 
                 INSERT INTO MedicalHistory (id_paciente, nombre_paciente, edad, genero, fecha_nacimiento, estado_civil, ocupacion, aseguradora, tipo_sangre, contacto_emergencia, antecedentes_personales, antecedentes_familiares) VALUES
                 (1, 'Juan Pérez', 30, 'Masculino', '1993-05-15', 'Soltero', 'Ingeniero', 'Seguros XYZ', 'O+', 'María Pérez - 555-1111', 'Ninguno', 'Diabetes en abuelo'),
@@ -205,7 +211,6 @@ namespace Backend_MiSalud.Migrations
                 (8, 'Elena Ruiz', 33, 'Femenino', '1990-03-05', 'Soltera', 'Psicóloga', 'Seguros STU', 'AB-', 'Jorge Ruiz - 555-8888', 'Depresión', 'Ninguno'),
                 (9, 'Jorge Morales', 60, 'Masculino', '1963-12-20', 'Casado', 'Empresario', 'Seguros VWX', 'O+', 'Lucía Morales - 555-9999', 'Diabetes', 'Ninguno'),
                 (10, 'Lucía Castro', 22, 'Femenino', '2001-06-14', 'Soltera', 'Estudiante', 'Seguros YZ', 'A-', 'Miguel Castro - 555-0000', 'Ninguno', 'Ninguno');
-                
                 INSERT INTO MedicalExamination(id_historial, tipo_examen, resultado, fecha_examen) VALUES
                 (1, 'Hemograma completo', 'Resultados normales', '2023-10-01'),
                 (2, 'Radiografía de tórax', 'Sin hallazgos patológicos', '2023-10-02'),
@@ -217,7 +222,6 @@ namespace Backend_MiSalud.Migrations
                 (8, 'Colonoscopía', 'Pólipos detectados', '2023-10-08'),
                 (9, 'Resonancia magnética', 'Sin anomalías', '2023-10-09'),
                 (10, 'Prueba de alergias', 'Alergia al polen detectada', '2023-10-10');
-                
                 INSERT INTO Diagnosis(id_historial, descripcion, fecha_diagnostico) VALUES
                 (1, 'Hipertensión arterial', '2023-10-01'),
                 (2, 'Asma leve', '2023-10-02'),
@@ -229,7 +233,7 @@ namespace Backend_MiSalud.Migrations
                 (8, 'Cáncer de colon', '2023-10-08'),
                 (9, 'Enfermedad de Parkinson', '2023-10-09'),
                 (10, 'Alergia al polen', '2023-10-10');
-                
+
                 INSERT INTO Recommendation(id_historial, descripcion, fecha_recomendacion) VALUES
                 (1, 'Reducir consumo de sal', '2023-10-01'),
                 (2, 'Uso de inhalador según necesidad', '2023-10-02'),
@@ -241,42 +245,43 @@ namespace Backend_MiSalud.Migrations
                 (8, 'Cirugía y quimioterapia', '2023-10-08'),
                 (9, 'Tratamiento farmacológico y terapia física', '2023-10-09'),
                 (10, 'Uso de antihistamínicos', '2023-10-10');
-                
-                INSERT INTO Doctor (rethus, nombre_completo, especialidad, telefono, correo, direccion) VALUES
-                (123456, 'Dr. Alejandro Torres', 'Cardiología', '555-1111', 'alejandro.torres@yopmail.com', 'Calle Médicos 123, Ciudad'),
-                (234567, 'Dra. Laura Méndez', 'Pediatría', '555-2222', 'laura.mendez@yopmail.com', 'Avenida Niños 456, Ciudad'),
-                (345678, 'Dr. Roberto Sánchez', 'Dermatología', '555-3333', 'roberto.sanchez@yopmail.com', 'Boulevard Piel 789, Ciudad'),
-                (456789, 'Dra. Carmen Ruiz', 'Ginecología', '555-4444', 'carmen.ruiz@yopmail.com', 'Calle Mujeres 101, Ciudad'),
-                (567890, 'Dr. Javier López', 'Ortopedia', '555-5555', 'javier.lopez@yopmail.com', 'Avenida Huesos 202, Ciudad'),
-                (678901, 'Dra. Patricia Díaz', 'Neurología', '555-6666', 'patricia.diaz@yopmail.com', 'Boulevard Cerebro 303, Ciudad'),
-                (789012, 'Dr. Manuel Castro', 'Psiquiatría', '555-7777', 'manuel.castro@yopmail.com', 'Calle Mente 404, Ciudad'),
-                (890123, 'Dra. Sofía Morales', 'Oncología', '555-8888', 'sofia.morales@yopmail.com', 'Avenida Cáncer 505, Ciudad'),
-                (901234, 'Dr. Ricardo Gómez', 'Endocrinología', '555-9999', 'ricardo.gomez@yopmail.com', 'Boulevard Hormonas 606, Ciudad'),
-                (012345, 'Dra. Adriana Fernández', 'Oftalmología', '555-0000', 'adriana.fernandez@yopmail.com', 'Calle Ojos 707, Ciudad');
-                
-                INSERT INTO MedicalAppointment(id_paciente, id_doctor, fecha_cita, hora_cita, Hora_finalizacion, estado) VALUES
-                (1, 1, '2023-10-15', '09:00', '09:30', 'Programada'),
-                (2, 2, '2023-10-16', '10:00', '10:30', 'Programada'),
-                (3, 3, '2023-10-17', '11:00', '11:30', 'Programada'),
-                (4, 4, '2023-10-18', '12:00', '12:30', 'Programada'),
-                (5, 5, '2023-10-19', '13:00', '13:30', 'Programada'),
-                (6, 6, '2023-10-20', '14:00', '14:30', 'Programada'),
-                (7, 7, '2023-10-21', '15:00', '15:30', 'Programada'),
-                (8, 8, '2023-10-22', '16:00', '16:30', 'Programada'),
-                (9, 9, '2023-10-23', '17:00', '17:30', 'Programada'),
-                (10, 10, '2023-10-24', '18:00', '18:30', 'Programada');
-                
-                INSERT INTO Administrator(nombre, apellido, correo, telefono) VALUES
-                ('Carlos', 'Gómez', 'carlos.gomez@yopmail.com', '555-1111'),
-                ('María', 'López', 'maria.lopez@yopmail.com', '555-2222'),
-                ('Juan', 'Martínez', 'juan.martinez@yopmail.com', '555-3333'),
-                ('Ana', 'Rodríguez', 'ana.rodriguez@yopmail.com', '555-4444'),
-                ('Luis', 'Hernández', 'luis.hernandez@yopmail.com', '555-5555'),
-                ('Sofía', 'Díaz', 'sofia.diaz@yopmail.com', '555-6666'),
-                ('Miguel', 'Ruiz', 'miguel.ruiz@yopmail.com', '555-7777'),
-                ('Elena', 'Morales', 'elena.morales@yopmail.com', '555-8888'),
-                ('Jorge', 'Castro', 'jorge.castro@yopmail.com', '555-9999'),
-                ('Lucía', 'Fernández', 'lucia.fernandez@yopmail.com', '555-0000');
+
+                INSERT INTO Doctor (rethus, nombre_completo, especialidad, telefono, correo, direccion, password_Doctor) VALUES
+                (123456, 'Dr. Alejandro Torres', 'Cardiología', '555-1111', 'alejandro.torres@yopmail.com', 'Calle Médicos 123, Ciudad', 'Alejandro123!'),
+                (234567, 'Dra. Laura Méndez', 'Pediatría', '555-2222', 'laura.mendez@yopmail.com', 'Avenida Niños 456, Ciudad', 'Laura123!'),
+                (345678, 'Dr. Roberto Sánchez', 'Dermatología', '555-3333', 'roberto.sanchez@yopmail.com', 'Boulevard Piel 789, Ciudad', 'Roberto123!'),
+                (456789, 'Dra. Carmen Ruiz', 'Ginecología', '555-4444', 'carmen.ruiz@yopmail.com', 'Calle Mujeres 101, Ciudad', 'Carmen123!'),
+                (567890, 'Dr. Javier López', 'Ortopedia', '555-5555', 'javier.lopez@yopmail.com', 'Avenida Huesos 202, Ciudad', 'Javier123!'),
+                (678901, 'Dra. Patricia Díaz', 'Neurología', '555-6666', 'patricia.diaz@yopmail.com', 'Boulevard Cerebro 303, Ciudad', 'Patricia123!'),
+                (789012, 'Dr. Manuel Castro', 'Psiquiatría', '555-7777', 'manuel.castro@yopmail.com', 'Calle Mente 404, Ciudad', 'Manuel123!'),
+                (890123, 'Dra. Sofía Morales', 'Oncología', '555-8888', 'sofia.morales@yopmail.com', 'Avenida Cáncer 505, Ciudad', 'Sofia123!'),
+                (901234, 'Dr. Ricardo Gómez', 'Endocrinología', '555-9999', 'ricardo.gomez@yopmail.com', 'Boulevard Hormonas 606, Ciudad', 'Ricardo123!'),
+                (012345, 'Dra. Adriana Fernández', 'Oftalmología', '555-0000', 'adriana.fernandez@yopmail.com', 'Calle Ojos 707, Ciudad', 'Adriana123!');
+
+                INSERT INTO MedicalAppointment (id_paciente, id_doctor, title, descriptionAppointment, placeAppointment, fecha_cita, hora_cita, Hora_finalizacion, estado) VALUES
+                (1, 1, 'Consulta General', 'Revisión médica de rutina', 'Consultorio 101', '2023-10-15', '09:00', '09:30', 'Programada'),
+                (2, 2, 'Consulta Pediátrica', 'Chequeo de niño sano', 'Consultorio 202', '2023-10-16', '10:00', '10:30', 'Programada'),
+                (3, 3, 'Revisión Dermatológica', 'Evaluación de condición de piel', 'Consultorio 303', '2023-10-17', '11:00', '11:30', 'Programada'),
+                (4, 4, 'Consulta Ginecológica', 'Chequeo ginecológico de rutina', 'Consultorio 404', '2023-10-18', '12:00', '12:30', 'Programada'),
+                (5, 5, 'Evaluación Ortopédica', 'Revisión de dolor en articulaciones', 'Consultorio 505', '2023-10-19', '13:00', '13:30', 'Programada'),
+                (6, 6, 'Consulta Neurológica', 'Evaluación de síntomas neurológicos', 'Consultorio 606', '2023-10-20', '14:00', '14:30', 'Programada'),
+                (7, 7, 'Consulta Psiquiátrica', 'Consulta sobre salud mental', 'Consultorio 707', '2023-10-21', '15:00', '15:30', 'Programada'),
+                (8, 8, 'Consulta Oncológica', 'Seguimiento de tratamiento', 'Consultorio 808', '2023-10-22', '16:00', '16:30', 'Programada'),
+                (9, 9, 'Consulta Endocrinológica', 'Evaluación de desórdenes hormonales', 'Consultorio 909', '2023-10-23', '17:00', '17:30', 'Programada'),
+                (10, 10, 'Consulta Oftalmológica', 'Revisión de la vista', 'Consultorio 1010', '2023-10-24', '18:00', '18:30', 'Programada');
+
+
+                INSERT INTO Administrator(nombre, apellido, correo, telefono, password_Administrator) VALUES
+                ('Carlos', 'Gómez', 'carlos.gomez@yopmail.com', '555-1111', 'Carlos123!'),
+                ('María', 'López', 'maria.lopez@yopmail.com', '555-2222', 'Maria123!'),
+                ('Juan', 'Martínez', 'juan.martinez@yopmail.com', '555-3333', 'Juan123!'),
+                ('Ana', 'Rodríguez', 'ana.rodriguez@yopmail.com', '555-4444', 'Ana123!'),
+                ('Luis', 'Hernández', 'luis.hernandez@yopmail.com', '555-5555', 'Luis123!'),
+                ('Sofía', 'Díaz', 'sofia.diaz@yopmail.com', '555-6666', 'Sofia123!'),
+                ('Miguel', 'Ruiz', 'miguel.ruiz@yopmail.com', '555-7777', 'Miguel123!'),
+                ('Elena', 'Morales', 'elena.morales@yopmail.com', '555-8888', 'Elena123!'),
+                ('Jorge', 'Castro', 'jorge.castro@yopmail.com', '555-9999', 'Jorge123!'),
+                ('Lucía', 'Fernández', 'lucia.fernandez@yopmail.com', '555-0000', 'Lucia123!');
             ");
 
             migrationBuilder.CreateIndex(
@@ -285,7 +290,7 @@ namespace Backend_MiSalud.Migrations
                 column: "id_historial");
 
             migrationBuilder.CreateIndex(
-                name: "UQ__Doctor__F4E7FF57265DE650",
+                name: "UQ__Doctor__F4E7FF5755D956CD",
                 table: "Doctor",
                 column: "rethus",
                 unique: true,
@@ -307,14 +312,14 @@ namespace Backend_MiSalud.Migrations
                 column: "id_historial");
 
             migrationBuilder.CreateIndex(
-                name: "UQ__MedicalH__2C2C72BA66FA97C9",
+                name: "UQ__MedicalH__2C2C72BAF6DCCAE0",
                 table: "MedicalHistory",
                 column: "id_paciente",
                 unique: true,
                 filter: "[id_paciente] IS NOT NULL");
 
             migrationBuilder.CreateIndex(
-                name: "UQ__Patient__2A586E0BBDBE606D",
+                name: "UQ__Patient__2A586E0B8556AC7E",
                 table: "Patient",
                 column: "correo",
                 unique: true,
@@ -324,8 +329,6 @@ namespace Backend_MiSalud.Migrations
                 name: "IX_Recommendation_id_historial",
                 table: "Recommendation",
                 column: "id_historial");
-
-
         }
 
         /// <inheritdoc />
