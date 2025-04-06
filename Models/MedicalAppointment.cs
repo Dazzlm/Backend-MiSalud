@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Text.Json.Serialization;
 
 namespace Backend_MiSalud.Models;
 
@@ -24,8 +25,10 @@ public partial class MedicalAppointment
     public TimeOnly? HoraFinalizacion { get; set; }
 
     public string? Estado { get; set; }
+    [JsonIgnore]
 
     public virtual Doctor? IdDoctorNavigation { get; set; }
+    [JsonIgnore]
 
     public virtual Patient? IdPacienteNavigation { get; set; }
 }
