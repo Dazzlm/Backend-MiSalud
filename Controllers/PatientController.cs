@@ -41,11 +41,7 @@ namespace Backend_MiSalud.Controllers
         {
             ClsPatient clsPatient = new ClsPatient();
             string result = clsPatient.AddPatient(patient);
-            if (result.Contains("Error"))
-            {
-                return BadRequest(result);
-            }
-            return Ok(result);
+            return ValidationResult(result);
         }
 
         [HttpDelete]
@@ -54,15 +50,22 @@ namespace Backend_MiSalud.Controllers
         {
             ClsPatient clsPatient = new ClsPatient();
             string result = clsPatient.DeleteAppointment(id);
+            return ValidationResult(result);
+        }
+        [NonAction]
+        private IActionResult ValidationResult(string result) {
             if (result.Contains("Error404"))
             {
                 return NotFound(result);
             }
+
             if (result.Contains("Error"))
             {
                 return BadRequest(result);
             }
+
             return Ok(result);
+
         }
 
     }

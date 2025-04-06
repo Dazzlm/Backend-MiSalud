@@ -1,27 +1,30 @@
-﻿using Backend_MiSalud.Models;
+﻿using Backend_MiSalud.Clases.Notification;
+using Backend_MiSalud.Models;
+using System.Numerics;
 
 namespace Backend_MiSalud.Clases
 {
     public class ClsAppointment 
     {
-        private readonly MiSaludContext dbMiSalud = new MiSaludContext();
+        private readonly MiSaludContext _dbMiSalud = new MiSaludContext();
+        private readonly ClsNotificaciones _clsNotificaciones = new ClsNotificaciones();
         public List<MedicalAppointment> GetAppointments()
         {
-            return dbMiSalud.MedicalAppointments.ToList();
+            return _dbMiSalud.MedicalAppointments.ToList();
         }
         public MedicalAppointment GetAppointmentById(int id)
         {
-            return dbMiSalud.MedicalAppointments.FirstOrDefault(ma => ma.IdCita == id);
+            return _dbMiSalud.MedicalAppointments.FirstOrDefault(ma => ma.IdCita == id);
         }
 
         public List<MedicalAppointment> GetAppointmentsByPatientId(int patientId)
         {
-            return dbMiSalud.MedicalAppointments.Where(ma => ma.IdPaciente == patientId).ToList();
+            return _dbMiSalud.MedicalAppointments.Where(ma => ma.IdPaciente == patientId).ToList();
         }
 
         public List<MedicalAppointment> GetAppointmentsByCedula(string cedula)
         {
-            Patient patient = dbMiSalud.Patients.FirstOrDefault(p => p.Cedula == cedula);
+            Patient patient = _dbMiSalud.Patients.FirstOrDefault(p => p.Cedula == cedula);
             if (patient == null) {
                 return [];
             }
@@ -30,21 +33,21 @@ namespace Backend_MiSalud.Clases
 
         public List<MedicalAppointment> GetAppointmentsByDoctorId(int doctorId)
         {
-            return dbMiSalud.MedicalAppointments.Where(ma => ma.IdDoctor == doctorId).ToList();
+            return _dbMiSalud.MedicalAppointments.Where(ma => ma.IdDoctor == doctorId).ToList();
         }
 
         public string AddAppointment(MedicalAppointment appointment)
         {
             try{
-                dbMiSalud.MedicalAppointments.Add(appointment);
-                dbMiSalud.SaveChanges();
-                return "Cita médica registrada correctamente.";
+                _dbMiSalud.MedicalAppointments.Add(appointment);
+                _dbMiSalud.SaveChanges();
+                string result = _clsNotificaciones.GenerateNotifyAppointment(appointment, "NewAppointment");
+                return "Cita médica registrada correctamente y "+result;
             }
             catch (Exception ex)
             {
                 return "Error al registrar la cita medica: " + ex.Message;
             }
-            
         }
 
         public string UpdateAppointment(MedicalAppointment appointment)
@@ -56,7 +59,7 @@ namespace Backend_MiSalud.Clases
 
             try
             {
-                MedicalAppointment updateAppointment = dbMiSalud.MedicalAppointments.Find(appointment.IdCita);
+                MedicalAppointment updateAppointment = _dbMiSalud.MedicalAppointments.Find(appointment.IdCita);
                 if (updateAppointment == null)
                 {
                     return "Error404: Cita médica no encontrada.";
@@ -70,37 +73,36 @@ namespace Backend_MiSalud.Clases
                 updateAppointment.HoraCita = appointment.HoraCita;
                 updateAppointment.HoraFinalizacion = appointment.HoraFinalizacion;
                 updateAppointment.Estado = appointment.Estado;
-                updateAppointment.IdDoctorNavigation = dbMiSalud.Doctors.Find(appointment.IdDoctor);
+                updateAppointment.IdDoctorNavigation = _dbMiSalud.Doctors.Find(appointment.IdDoctor);
 
-                dbMiSalud.MedicalAppointments.Update(updateAppointment);
-                dbMiSalud.SaveChanges();
-                return "Cita médica actualizada correctamente.";
+                _dbMiSalud.MedicalAppointments.Update(updateAppointment);
+                _dbMiSalud.SaveChanges();
+                string result = _clsNotificaciones.GenerateNotifyAppointment(appointment, "RescheduleAppointment");
+                return "Cita médica actualizada correctamente y " + result;
             }
             catch (Exception ex)
             {
                 return "Error al actualizar la cita médica: " + ex.Message;
-
             }
         }
         public string DeleteAppointment(int id)
         {
             try
             {
-                MedicalAppointment appointment = dbMiSalud.MedicalAppointments.Find(id);
+                MedicalAppointment appointment = _dbMiSalud.MedicalAppointments.Find(id);
 
                 if (appointment == null)
                 {
                     return "Error404: Cita médica no encontrada.";
                 }
 
-                dbMiSalud.MedicalAppointments.Remove(appointment);
-                dbMiSalud.SaveChanges();
+                _dbMiSalud.MedicalAppointments.Remove(appointment);
+                _dbMiSalud.SaveChanges();
                 return "Cita médica eliminada correctamente.";
             }
             catch (Exception ex)
             {
                 return "Error al eliminar la cita médica: " + ex.Message;
-
             }
         }
     }

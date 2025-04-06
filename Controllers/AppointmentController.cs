@@ -85,11 +85,7 @@ namespace Backend_MiSalud.Controllers
                 return BadRequest("Estructura inválida o nula");
             }
             string result = clsAppointment.AddAppointment(appointment);
-            if (result.Contains("Error"))
-            {
-                return BadRequest(result);
-            }
-            return Ok(result) ;
+            return ValidationResult(result);;
         }
         [HttpPut]
         [Route("UpdateMedicalAppointment")]
@@ -102,15 +98,7 @@ namespace Backend_MiSalud.Controllers
             }
             string result = clsAppointment.UpdateAppointment(appointment);
 
-            if (result.Contains("Error404"))
-            {
-                return NotFound(result);
-            }
-            if (result.Contains("Error"))
-            {
-                return BadRequest(result);
-            }
-            return Ok(result);
+            return ValidationResult(result);
         }
         [HttpDelete]
         [Route("DeleteMedicalAppointment/{id}")]
@@ -118,8 +106,14 @@ namespace Backend_MiSalud.Controllers
         {
             ClsAppointment clsAppointment = new ClsAppointment();
             string result = clsAppointment.DeleteAppointment(id);
+            return ValidationResult(result);
+           
+        }
 
-            if (result.Contains("Error404")) {
+        [NonAction]
+        private IActionResult ValidationResult(string result) {
+            if (result.Contains("Error404"))
+            {
                 return NotFound(result);
             }
 
@@ -129,6 +123,7 @@ namespace Backend_MiSalud.Controllers
             }
 
             return Ok(result);
+
         }
 
     }
