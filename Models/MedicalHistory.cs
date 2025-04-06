@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Text.Json.Serialization;
 
 namespace Backend_MiSalud.Models;
 
@@ -30,12 +31,16 @@ public partial class MedicalHistory
     public string? AntecedentesPersonales { get; set; }
 
     public string? AntecedentesFamiliares { get; set; }
+    [JsonIgnore]
 
     public virtual ICollection<Diagnosis> Diagnoses { get; set; } = new List<Diagnosis>();
+    [JsonIgnore]
 
     public virtual Patient? IdPacienteNavigation { get; set; }
+    [JsonIgnore]
 
     public virtual ICollection<MedicalExamination> MedicalExaminations { get; set; } = new List<MedicalExamination>();
+    [JsonIgnore]
 
     public virtual ICollection<Recommendation> Recommendations { get; set; } = new List<Recommendation>();
 }

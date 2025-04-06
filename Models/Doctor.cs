@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Text.Json.Serialization;
 
 namespace Backend_MiSalud.Models;
 
@@ -20,6 +21,7 @@ public partial class Doctor
     public string? Direccion { get; set; }
 
     public string? PasswordDoctor { get; set; }
+    [JsonIgnore]
 
     public virtual ICollection<MedicalAppointment> MedicalAppointments { get; set; } = new List<MedicalAppointment>();
 }

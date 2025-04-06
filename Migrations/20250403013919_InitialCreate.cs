@@ -53,6 +53,7 @@ namespace Backend_MiSalud.Migrations
                 {
                     id_paciente = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
+                    cedula = table.Column<string>(type: "nvarchar(15)", maxLength: 15, nullable: false),
                     nombre_completo = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: true),
                     direccion = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: true),
                     telefono = table.Column<string>(type: "nvarchar(20)", maxLength: 20, nullable: true),
@@ -187,17 +188,17 @@ namespace Backend_MiSalud.Migrations
                         principalColumn: "id_historial");
                 });
             migrationBuilder.Sql(@"
-                INSERT INTO Patient(nombre_completo, direccion, telefono, correo, password_patient) VALUES
-                ('Juan Pérez', 'Calle Falsa 123, Ciudad', '555-1234', 'juan.perez@yopmail.com', 'Juan123!'),
-                ('María González', 'Avenida Siempre Viva 456, Ciudad', '555-5678', 'maria.gonzalez@yopmail.com', 'Maria123!'),
-                ('Carlos López', 'Boulevard Los Olivos 789, Ciudad', '555-8765', 'carlos.lopez@yopmail.com', 'Carlos123!'),
-                ('Ana Martínez', 'Calle Luna 101, Ciudad', '555-4321', 'ana.martinez@yopmail.com', 'Ana123!'),
-                ('Luis Rodríguez', 'Avenida Sol 202, Ciudad', '555-6543', 'luis.rodriguez@yopmail.com', 'Luis123!'),
-                ('Sofía Hernández', 'Calle Estrella 303, Ciudad', '555-3456', 'sofia.hernandez@yopmail.com', 'Sofia123!'),
-                ('Miguel Díaz', 'Boulevard Jardines 404, Ciudad', '555-7890', 'miguel.diaz@yopmail.com', 'Miguel123!'),
-                ('Elena Ruiz', 'Avenida Bosques 505, Ciudad', '555-0987', 'elena.ruiz@yopmail.com', 'Elena123!'),
-                ('Jorge Morales', 'Calle Ríos 606, Ciudad', '555-6789', 'jorge.morales@yopmail.com', 'Jorge123!'),
-                ('Lucía Castro', 'Boulevard Montañas 707, Ciudad', '555-9876', 'lucia.castro@yopmail.com', 'Lucia123!');
+                INSERT INTO Patient(nombre_completo, cedula, direccion, telefono, correo, password_patient) VALUES
+                ('Juan Pérez','1023377521', 'Calle Falsa 123, Ciudad', '555-1234', 'juan.perez@yopmail.com', 'Juan123!'),
+                ('María González','1013278529', 'Avenida Siempre Viva 456, Ciudad', '555-5678', 'maria.gonzalez@yopmail.com', 'Maria123!'),
+                ('Carlos López','1124357425','Boulevard Los Olivos 789, Ciudad', '555-8765', 'carlos.lopez@yopmail.com', 'Carlos123!'),
+                ('Ana Martínez','2023379854','Calle Luna 101, Ciudad', '555-4321', 'ana.martinez@yopmail.com', 'Ana123!'),
+                ('Luis Rodríguez','1924327526','Avenida Sol 202, Ciudad', '555-6543', 'luis.rodriguez@yopmail.com', 'Luis123!'),
+                ('Sofía Hernández','1783377527','Calle Estrella 303, Ciudad', '555-3456', 'sofia.hernandez@yopmail.com', 'Sofia123!'),
+                ('Miguel Díaz','1025325529', 'Boulevard Jardines 404, Ciudad', '555-7890', 'miguel.diaz@yopmail.com', 'Miguel123!'),
+                ('Elena Ruiz','1024358522','Avenida Bosques 505, Ciudad', '555-0987', 'elena.ruiz@yopmail.com', 'Elena123!'),
+                ('Jorge Morales','1212377523','Calle Ríos 606, Ciudad', '555-6789', 'jorge.morales@yopmail.com', 'Jorge123!'),
+                ('Lucía Castro','1129387550','Boulevard Montañas 707, Ciudad', '555-9876', 'lucia.castro@yopmail.com', 'Lucia123!');
 
 
                 INSERT INTO MedicalHistory (id_paciente, nombre_paciente, edad, genero, fecha_nacimiento, estado_civil, ocupacion, aseguradora, tipo_sangre, contacto_emergencia, antecedentes_personales, antecedentes_familiares) VALUES
@@ -324,6 +325,12 @@ namespace Backend_MiSalud.Migrations
                 column: "correo",
                 unique: true,
                 filter: "[correo] IS NOT NULL");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Patient_Cedula",
+                table: "Patient",
+                column: "Cedula",
+                unique: true);
 
             migrationBuilder.CreateIndex(
                 name: "IX_Recommendation_id_historial",
