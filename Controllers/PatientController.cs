@@ -18,9 +18,17 @@ namespace Backend_MiSalud.Controllers
             Patient patient = clsPatient.GetAppointmentsByPatientId(patientId);
             if (patient == null)
             {
-                return NotFound("Paciente no encontrado.");
+                return NotFound(new
+                {
+                    success = false,
+                    message = "Paciente no encontrado"
+                });
             }
-            return Ok(patient);
+            return Ok(new
+            {
+                success = true,
+                data = patient
+            });
         }
         [HttpGet]
         [Route("GetPatientByCedula/{cedula}")]
@@ -30,9 +38,17 @@ namespace Backend_MiSalud.Controllers
             Patient patient = clsPatient.GetAppointmentsByCedula(cedula);
             if (patient == null)
             {
-                return NotFound("Paciente no encontrado.");
+                return NotFound(new
+                {
+                    success = false,
+                    message = "Paciente no encontrado"
+                });
             }
-            return Ok(patient);
+            return Ok(new
+            {
+                success = true,
+                data = patient
+            });
         }
 
         [HttpPost]
@@ -56,15 +72,29 @@ namespace Backend_MiSalud.Controllers
         private IActionResult ValidationResult(string result) {
             if (result.Contains("Error404"))
             {
-                return NotFound(result);
+                return NotFound(new
+                {
+                    success = false,
+                    errorCode = 404,
+                    message = result
+                });
             }
 
             if (result.Contains("Error"))
             {
-                return BadRequest(result);
+                return BadRequest(new
+                {
+                    success = false,
+                    errorCode = 400,
+                    message = result
+                });
             }
 
-            return Ok(result);
+            return Ok(new
+            {
+                success = true,
+                data = result
+            });
 
         }
 

@@ -49,14 +49,27 @@ namespace Backend_MiSalud.Controllers
         {
             if (result.Contains("Error404"))
             {
-                return NotFound("No se encontraron correos para los pacientes.");
+                return NotFound(new
+                {
+                    success = false,
+                    message = "No se encontraron correos para los pacientes."
+                });
             }
 
             if (result.Contains("Error"))
             {
-                return BadRequest(result);
+                return BadRequest(new
+                {
+                    success = false,
+                    message = result
+                });
             }
-            return Ok(result);
+
+            return Ok(new
+            {
+                success = true,
+                data = result
+            });
         }
     }
 }

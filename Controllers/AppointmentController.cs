@@ -17,9 +17,18 @@ namespace Backend_MiSalud.Controllers
             List<MedicalAppointment> appointments = clsAppointment.GetAppointments();
             if (appointments == null || appointments.Count == 0)
             {
-                return NotFound("No se encontraron citas médicas.");
+                return NotFound(new
+                {
+                    success = false,
+                    message = "No se encontraron citas médicas."
+                });
             }
-            return Ok(appointments);
+
+            return Ok(new
+            {
+                success = true,
+                data = appointments
+            });
         }
 
         [HttpGet]
@@ -29,11 +38,23 @@ namespace Backend_MiSalud.Controllers
 
             ClsAppointment clsAppointment = new ClsAppointment();
             MedicalAppointment appointment = clsAppointment.GetAppointmentById(id);
+
             if (appointment == null)
             {
-                return NotFound("Cita médica no encontrada.");
+                return NotFound(new
+                {
+                    success = false,
+                    message = "Cita médica no encontrada."
+                });
             }
-            return Ok(appointment);
+
+            return Ok(new
+            {
+                success = true,
+                data = appointment
+            });
+
+            
         }
 
         [HttpGet]
@@ -44,9 +65,18 @@ namespace Backend_MiSalud.Controllers
             List<MedicalAppointment> appointments = clsAppointment.GetAppointmentsByPatientId(patientId);
             if (appointments == null || appointments.Count == 0)
             {
-                return NotFound("No se encontraron citas médicas para el paciente.");
+                return NotFound(new
+                {
+                    success = false,
+                    message = "No se encontraron citas médicas para el paciente con id: "+patientId
+                });
             }
-            return Ok(appointments);
+
+            return Ok(new
+            {
+                success = true,
+                data = appointments
+            });
         }
 
         [HttpGet]
@@ -57,9 +87,18 @@ namespace Backend_MiSalud.Controllers
             List<MedicalAppointment> appointments = clsAppointment.GetAppointmentsByCedula(cedula);
             if (appointments == null || appointments.Count == 0)
             {
-                return NotFound("No se encontraron citas médicas para el paciente con cédula: " + cedula);
+                return NotFound(new
+                {
+                    success = false,
+                    message = "No se encontraron citas médicas para el paciente con cedula: " + cedula
+                });
             }
-            return Ok(appointments);
+
+            return Ok(new
+            {
+                success = true,
+                data = appointments
+            });
         }
 
         [HttpGet]
@@ -70,9 +109,18 @@ namespace Backend_MiSalud.Controllers
             List<MedicalAppointment> appointments = clsAppointment.GetAppointmentsByDoctorId(doctorId);
             if (appointments == null || appointments.Count == 0)
             {
-                return NotFound("No se encontraron citas médicas para el doctor con ID: " + doctorId);
+                return NotFound(new
+                {
+                    success = false,
+                    message = "No se encontraron citas médicas para el doctor con ID: " + doctorId
+                });
             }
-            return Ok(appointments);
+
+            return Ok(new
+            {
+                success = true,
+                data = appointments
+            });
         }
         [HttpPost]
         [Route("AddMedicalAppointment")]
@@ -82,7 +130,11 @@ namespace Backend_MiSalud.Controllers
 
             if (appointment == null)
             {
-                return BadRequest("Estructura inválida o nula");
+                return BadRequest(new
+                {
+                    success = false,
+                    message = "Estructura inválida o nula"
+                });
             }
             string result = clsAppointment.AddAppointment(appointment);
             return ValidationResult(result);;
@@ -94,7 +146,11 @@ namespace Backend_MiSalud.Controllers
             ClsAppointment clsAppointment = new ClsAppointment();
             if (appointment == null)
             {
-                return BadRequest("Estructura inválida o nula");
+                return BadRequest(new
+                {
+                    success = false,
+                    message = "Estructura inválida o nula"
+                });
             }
             string result = clsAppointment.UpdateAppointment(appointment);
 
@@ -111,19 +167,31 @@ namespace Backend_MiSalud.Controllers
         }
 
         [NonAction]
-        private IActionResult ValidationResult(string result) {
+        private IActionResult ValidationResult(string result)
+        {
             if (result.Contains("Error404"))
             {
-                return NotFound(result);
+                return NotFound(new
+                {
+                    success = false,
+                    message = result
+                });
             }
 
             if (result.Contains("Error"))
             {
-                return BadRequest(result);
+                return BadRequest(new
+                {
+                    success = false,
+                    message = result
+                });
             }
 
-            return Ok(result);
-
+            return Ok(new
+            {
+                success = true,
+                message = result
+            });
         }
 
     }
