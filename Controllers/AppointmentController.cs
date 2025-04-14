@@ -1,6 +1,7 @@
 ﻿using Backend_MiSalud.Clases;
 using Backend_MiSalud.Models;
 using Microsoft.AspNetCore.Mvc;
+using static Backend_MiSalud.Models.LibAppointmentDetails;
 
 namespace Backend_MiSalud.Controllers
 {
@@ -164,6 +165,29 @@ namespace Backend_MiSalud.Controllers
             string result = clsAppointment.DeleteAppointment(id);
             return ValidationResult(result);
            
+        }
+
+        [HttpGet]
+        [Route("GetMedicalAppointmentsDetails/{id}")]
+        public IActionResult GetMedicalAppointmentsDetails(int id)
+        {
+            ClsAppointment clsAppointment = new ClsAppointment();
+            CitaDetalleDto appointmentDetails = clsAppointment.GetAppointmentDetails(id);
+
+            if (appointmentDetails == null)
+            {
+                return NotFound(new
+                {
+                    success = false,
+                    message = "No se encontraron detalles de la cita médica con ID: " + id
+                });
+            }
+
+            return Ok(new
+            {
+                success = true,
+                data = appointmentDetails
+            });
         }
 
         [NonAction]

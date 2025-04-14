@@ -1,6 +1,7 @@
 ﻿using Backend_MiSalud.Clases.Notification;
 using Backend_MiSalud.Models;
 using System.Numerics;
+using static Backend_MiSalud.Models.LibAppointmentDetails;
 
 namespace Backend_MiSalud.Clases
 {
@@ -104,6 +105,47 @@ namespace Backend_MiSalud.Clases
             {
                 return "Error al eliminar la cita médica: " + ex.Message;
             }
+        }
+
+        public CitaDetalleDto GetAppointmentDetails (int id){
+            
+            MedicalAppointment appointment = _dbMiSalud.MedicalAppointments.Find(id);
+
+            if (appointment == null)
+            {
+                return null;
+            }
+            Doctor doctor = _dbMiSalud.Doctors.FirstOrDefault(d => d.IdDoctor == appointment.IdDoctor);
+            Patient patient = _dbMiSalud.Patients.FirstOrDefault(p => p.IdPaciente == appointment.IdPaciente);
+
+            string toEmailPatient = patient.Correo;
+            string toEmailDoctor = doctor.Correo;
+
+            CitaDetalleDto citaDetalle = new CitaDetalleDto
+            {
+                Fecha = appointment.FechaCita,
+                HoraInicio = appointment.HoraCita,
+                HoraFin = appointment.HoraFinalizacion,
+                Paciente = new PacienteDto
+                {
+                    NombreCompleto = patient.NombreCompleto,
+                    Cedula = patient.Cedula,
+                    Correo = patient.Correo,
+                    Telefono = patient.Telefono
+                },
+                Doctor = new DoctorDto
+                {
+                    NombreCompleto = doctor.NombreCompleto,
+                    Correo = doctor.Correo,
+                    Telefono = doctor.Telefono
+                },
+                Titulo = appointment.Title,
+                Descripcion = appointment.DescriptionAppointment,
+                Lugar = appointment.PlaceAppointment
+            };
+
+            return citaDetalle;
+
         }
     }
 }
