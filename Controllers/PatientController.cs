@@ -31,6 +31,22 @@ namespace Backend_MiSalud.Controllers
             });
         }
         [HttpGet]
+        [Route("ExistsByCedulaOrCorreo")]
+        public IActionResult ExistsByCedulaOrCorreo([FromQuery] string cedula, [FromQuery] string correo)
+        {
+            ClsPatient clsPatient = new ClsPatient();
+
+            bool cedulaExiste = clsPatient.ExistsByCedula(cedula);
+            bool correoExiste = clsPatient.ExistsByCorreo(correo);
+
+            return Ok(new
+            {
+                cedulaExiste,
+                correoExiste
+            });
+        }
+
+        [HttpGet]
         [Route("GetPatientByCedula/{cedula}")]
         public IActionResult GetPatientByCedula(string cedula)
         {
