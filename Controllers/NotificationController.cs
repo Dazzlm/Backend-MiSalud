@@ -27,7 +27,7 @@ namespace Backend_MiSalud.Controllers
         }
 
         [HttpPost]
-        [Route("SendEmailToAdmis")]
+        [Route("SendEmailToAdmins")]
         public IActionResult SendEmailToAdmins(string body, string subject)
         {
             ClsNotificaciones clsNotificaciones = new ClsNotificaciones();
