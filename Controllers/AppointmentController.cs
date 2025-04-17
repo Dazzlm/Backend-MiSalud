@@ -59,6 +59,23 @@ namespace Backend_MiSalud.Controllers
         }
 
         [HttpGet]
+        [Route("GetMedicalAppointmentByDate/{date}")]
+        public IActionResult GetMedicalAppointmentById(DateOnly date)
+        {
+
+            ClsAppointment clsAppointment = new ClsAppointment();
+            List<MedicalAppointment> appointments = clsAppointment.GetAppointmentsByDate(date);
+
+            return Ok(new
+            {
+                success = true,
+                data = appointments
+            });
+
+
+        }
+
+        [HttpGet]
         [Route("GetMedicalAppointmentsByPatientId/{patientId}")]
         public IActionResult GetMedicalAppointmentsByPatientId(int patientId)
         {

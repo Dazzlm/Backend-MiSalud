@@ -18,6 +18,10 @@ namespace Backend_MiSalud.Clases
             return _dbMiSalud.MedicalAppointments.FirstOrDefault(ma => ma.IdCita == id);
         }
 
+        public List<MedicalAppointment> GetAppointmentsByDate(DateOnly date) {
+            return _dbMiSalud.MedicalAppointments.Where(ma => ma.FechaCita == date).ToList();
+        }
+
         public List<MedicalAppointment> GetAppointmentsByPatientId(int patientId)
         {
             return _dbMiSalud.MedicalAppointments.Where(ma => ma.IdPaciente == patientId).ToList();
